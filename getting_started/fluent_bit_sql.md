@@ -32,7 +32,7 @@ Select all records which Tag starts with _apache._:
 SELECT * FROM 'TAG:apache.*';
 ```
 
-> Since the TAGselector allows the use wildcards we put the value between single quotes.
+> Since the TAG selector allows the use wildcards we put the value between single quotes.
 
 ### CREATE STREAM
 
@@ -64,36 +64,66 @@ Create a new stream called hello for all records which original Tag starts with 
 CREATE STREAM hello AS SELECT * FROM 'TAG:apache.*';
 ```
 
+## Aggregation Functions
 
+Aggregation functions allows to perform data calculation on groups of records.
 
+### AVG
 
+#### Synopsis
 
+```sql
+SELECT AVG(key) FROM STREAM:apache;
+```
 
+#### Description
 
+Calculates the average of a set of values.
 
+### COUNT
 
- 
+#### Synopsis
 
+```sql
+SELECT COUNT(*) FROM STREAM:apache;
+```
 
+#### Description
 
-| Command       | Description                                                  |
-| ------------- | ------------------------------------------------------------ |
-| SELECT        | Indicate that the execution of the query will do keys selection. |
-| CREATE STREAM | Create a new stream of data using results from a given query. |
-| FROM          | Used to specify from which Stream or Tags select data from.  |
-| WHERE         | This clause is used to extract only those records that fulfill a specified condition. |
+Count the number of records
 
-### Aggregation Functions
+### MIN
 
-| Function | Description                                |
-| -------- | ------------------------------------------ |
-| AVG()    | calculates the average of a set of values. |
-| COUNT()  | counts records.                            |
-| MIN()    | gets the minimum value in a set of values. |
-| MAX()    | gets the maximum value in a set of values. |
-| SUM()    | calculates the sum of values.              |
+#### Synopsis
 
-### Filtering
+```sql
+SELECT MIN(key) FROM STREAM:apache;
+```
 
-| 
+#### Description
 
+Gets the minimum value of a key in a set of records.
+
+### MAX
+
+#### Synopsis
+
+```sql
+SELECT MIN(key) FROM STREAM:apache;
+```
+
+#### Description
+
+Gets the maximum value of a key in a set of records.
+
+### SUM
+
+#### Synopsis
+
+```sql
+SELECT SUM(key) FROM STREAM:apache;
+```
+
+#### Description
+
+Calculates the sum of all values of key in a set of records.
