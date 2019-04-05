@@ -154,5 +154,32 @@ SELECT UNIX_TIMESTAMP() FROM STREAM:apache;
 
 #### Description
 
-Add current Unix timestamp to the record. Output example: 1552196165.
+Add current Unix timestamp to the record. Output example: 1552196165 .
 
+## Record Functions
+
+Record functions append new keys to the record using values from the record context.
+
+### RECORD_TAG
+
+#### Synopsis
+
+```sql
+SELECT RECORD_TAG() FROM STREAM:apache;
+```
+
+#### Description
+
+Append Tag string associated to the record as a new key.
+
+### RECORD_TIME
+
+#### Synopsis
+
+```sql
+SELECT RECORD_TIME() FROM STREAM:apache;
+```
+
+#### Description
+
+Append a new key with the record Timestamp in _double_ format: seconds.nanoseconds. Output example: 1552196165.705683 .
