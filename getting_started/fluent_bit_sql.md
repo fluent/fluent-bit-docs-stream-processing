@@ -127,3 +127,32 @@ SELECT SUM(key) FROM STREAM:apache;
 #### Description
 
 Calculates the sum of all values of key in a set of records.
+
+## Time Functions
+
+Time functions adds a new key into the record with timing data
+
+### NOW
+
+#### Synopsis
+
+```sql
+SELECT NOW() FROM STREAM:apache;
+```
+
+#### Description
+
+Add system time using format: %Y-%m-%d %H:%M:%S. Output example: 2019-03-09 21:36:05.
+
+### UNIX_TIMESTAMP
+
+#### Synopsis
+
+```sql
+SELECT UNIX_TIMESTAMP() FROM STREAM:apache;
+```
+
+#### Description
+
+Add current Unix timestamp to the record. Output example: 1552196165.
+
