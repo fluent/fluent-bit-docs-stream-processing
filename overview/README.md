@@ -22,7 +22,7 @@ The Stream Processor is an independent subsystem that check for new records hitt
 
 ![](../imgs/flb_pipeline_sp.png)
 
-By configuring specific SQL queries (Structured Query Language), the user can perform specific tasks like key selections, filtering and data aggregation within others.
+By configuring specific SQL queries (Structured Query Language), the user can perform specific tasks like key selections, filtering and data aggregation within others. Note that there is __no__ database concept here, everything is **schema-less** and happens **in-memory**, for hence the concept of _Tables_ as in common relational databases don't exists. 
 
-One of the powerful features of Fluent Bit Stream Processor is that allows to create new streams of data  using the results from a previous SQL query, these results are re-ingested back into the pipeline to be consumed again for the Stream Processor (if desired) or routed to output destinations such any common record by using Tag/Matching rules: stream processor results can be Tagged. 
+One of the powerful features of Fluent Bit Stream Processor is that allows to create new streams of data  using the results from a previous SQL query, these results are re-ingested back into the pipeline to be consumed again for the Stream Processor (if desired) or routed to output destinations such any common record by using Tag/Matching rules (tip: stream processor results can be Tagged!)
 
