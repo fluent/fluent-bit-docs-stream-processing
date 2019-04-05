@@ -1,4 +1,4 @@
-# Fluent Bit + SQL
+# Fluent Bit Query Language: SQL
 
 Fluent Bit stream processor uses common SQL to perform record queries. The following section describe the features available and examples of it.
 
