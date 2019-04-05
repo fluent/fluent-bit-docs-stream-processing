@@ -3,3 +3,4 @@
 * [Introduction](README.md)
 * [Overview](overview/README.md)
 * [Getting Started](getting_started/README.md)
+  * [Fluent Bit + SQL](getting_started/fluent_bit_sql.md)
