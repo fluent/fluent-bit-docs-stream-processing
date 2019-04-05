@@ -6,9 +6,9 @@ In order to understand how Stream Processing works in Fluent Bit, we will go thr
 
 ## Fluent Bit Data Pipeline
 
-[Fluent Bit](https://fluentbit.io) collects and process logs (records) from different input sources and allows to parse and filter these records before they hit the Storage interface. One data is processed and in a safe state (either in memory or the file system), the records are routed through the proper output destinations.
+[Fluent Bit](https://fluentbit.io) collects and process logs (records) from different input sources and allows to parse and filter these records before they hit the Storage interface. One data is processed and it's in a safe state (either in memory or the file system), the records are routed through the proper output destinations.
 
-> Most of the phases in the pipeline are implemented through Plugins: Input, Filter and Output.
+> Most of the phases in the pipeline are implemented through plugins: Input, Filter and Output.
 
 ![](../imgs/flb_pipeline.png)
 
@@ -22,7 +22,7 @@ The Stream Processor is an independent subsystem that check for new records hitt
 
 ![](../imgs/flb_pipeline_sp.png)
 
-By setting specific queries through SQL (Structured Query Language), the user can perform specific tasks like key selections, filtering, data aggregation within others.
+By configuring specific SQL queries (Structured Query Language), the user can perform specific tasks like key selections, filtering and data aggregation within others.
 
-One of the powerful features of Fluent Bit Stream Processor is that allows to create new data stream using the results from a SQL query, these results are re-ingested back into the pipeline to be consumed again for the Stream Processor (if desired) or routed to output destinations such any common record.
+One of the powerful features of Fluent Bit Stream Processor is that allows to create new streams of data  using the results from a previous SQL query, these results are re-ingested back into the pipeline to be consumed again for the Stream Processor (if desired) or routed to output destinations such any common record by using Tag/Matching rules: stream processor results can be Tagged. 
 
