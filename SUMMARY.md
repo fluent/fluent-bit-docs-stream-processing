@@ -2,6 +2,4 @@
 
 * [Introduction](README.md)
 * [Overview](overview/README.md)
-* Getting Started
-  * [Requirements](getting_started/requirements.md)
-
+* [Getting Started](getting_started/README.md)
