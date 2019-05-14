@@ -4,51 +4,55 @@ Fluent Bit stream processor uses common SQL to perform record queries. The follo
 
 ## Statements
 
-### SELECT
+You can find the detailed query language syntax in BNF form [here](https://github.com/fluent/fluent-bit/tree/master/src/stream_processor). The following section will be a brief introduction on how to write SQL queries for Fluent Bit stream processing.
+
+### SELECT Statement
 
 #### Synopsis
 
 ```sql
-SELECT select_expression
-  FROM [STREAM:stream_name | TAG:match_rule]
+SELECT results_statement
+  FROM STREAM:stream_name | TAG:match_rule
+  [WINDOW TUMBLING (integer SECOND)]
   [WHERE condition]
+  [GROUP BY groupby]
 ```
 
 #### Description
 
-Select records from a stream or records matching a specific Tag pattern. Note that a simple SELECT statement __not__ associated from a stream creation will send the results to the standard output interface (stdout), useful for debugging purposes.
+Select keys from records coming from a stream or records matching a specific Tag pattern. Note that a simple `SELECT` statement __not__ associated from a stream creation will send the results to the standard output interface (stdout), useful for debugging purposes.
+
+The query allows filtering the results by applying a condition using `WHERE` statement. We will explain `WINDOW` and `GROUP BY` statements later in aggregation functions section.
 
 #### Examples
 
-Select all records and keys coming from a stream called _apache_:
+Select all keys from records coming from a stream called _apache_:
 
 ```sql
 SELECT * FROM STREAM:apache;
 ```
 
-Select all records which Tag starts with _apache._:
+Select all keys from records which Tag starts with _apache._:
 
 ```sql
-SELECT * FROM 'TAG:apache.*';
+SELECT code AS http_status FROM TAG:'apache.*';
 ```
 
 > Since the TAG selector allows the use wildcards we put the value between single quotes.
 
-### CREATE STREAM
+### CREATE STREAM Statement
 
 #### Synopsis
 
 ```sql
 CREATE STREAM stream_name
   [WITH (property_name=value, [...])]
-  AS SELECT select_expression
-  FROM [STREAM:stream_name | TAG:match_rule]
-  [WHERE condition]
+  AS select_statement
 ```
 
 #### Description
 
-Create a new stream of data using the results from the SELECT statement. New stream created can be optionally re-ingested back into Fluent Bit pipeline if the property _Tag_ is set in the WITH statement. 
+Create a new stream of data using the results from the `SELECT` statement. New stream created can be optionally re-ingested back into Fluent Bit pipeline if the property _Tag_ is set in the WITH statement.
 
 #### Examples
 
@@ -61,36 +65,42 @@ CREATE STREAM hello AS SELECT * FROM STREAM:apache;
 Create a new stream called hello for all records which original Tag starts with _apache_:
 
 ```sql
-CREATE STREAM hello AS SELECT * FROM 'TAG:apache.*';
+CREATE STREAM hello AS SELECT * FROM TAG:'apache.*';
 ```
 
 ## Aggregation Functions
 
-Aggregation functions allows to perform data calculation on groups of records.
+Aggregation functions are used in `results_statement` on the keys, allowing to perform data calculation on groups of records.
+Group of records that aggregation functions apply on are determined by `WINDOW` keyword. When `WiNDOW` is not specified, aggregation functions apply
+on the current buffer of records received, which may have non-deterministic number of elements. Aggregation functions can be applied on records in a window of a specific time interval (see the syntax of `WINDOW` in select statement).
+
+Fluent Bit streaming currently supports tumbling window, which is non-overlapping window type. That means, a window of size 5 seconds perform aggregation computations on records over a 5-second interval, and then starts new calculations for the next interval.
+
+In addition, the syntax support `GROUP BY` statement, which groups the results by the one or more keys, when they have the same values.
 
 ### AVG
 
 #### Synopsis
 
 ```sql
-SELECT AVG(key) FROM STREAM:apache;
+SELECT AVG(size) FROM STREAM:apache WHERE method = 'POST' ;
 ```
 
 #### Description
 
-Calculates the average of a set of values.
+Calculates the average of request sizes in POST requests.
 
 ### COUNT
 
 #### Synopsis
 
 ```sql
-SELECT COUNT(*) FROM STREAM:apache;
+SELECT host, COUNT(*) FROM STREAM:apache WINDOW TUMBLING (5 SECOND) GROUP BY host;
 ```
 
 #### Description
 
-Count the number of records
+Count the number of records in 5 second windows group by host IP addresses.
 
 ### MIN
 
