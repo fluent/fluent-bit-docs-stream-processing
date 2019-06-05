@@ -71,7 +71,7 @@ CREATE STREAM hello AS SELECT * FROM TAG:'apache.*';
 ## Aggregation Functions
 
 Aggregation functions are used in `results_statement` on the keys, allowing to perform data calculation on groups of records.
-Group of records that aggregation functions apply on are determined by `WINDOW` keyword. When `WiNDOW` is not specified, aggregation functions apply
+Group of records that aggregation functions apply on are determined by `WINDOW` keyword. When `WINDOW` is not specified, aggregation functions apply
 on the current buffer of records received, which may have non-deterministic number of elements. Aggregation functions can be applied on records in a window of a specific time interval (see the syntax of `WINDOW` in select statement).
 
 Fluent Bit streaming currently supports tumbling window, which is non-overlapping window type. That means, a window of size 5 seconds perform aggregation computations on records over a 5-second interval, and then starts new calculations for the next interval.
@@ -119,7 +119,7 @@ Gets the minimum value of a key in a set of records.
 #### Synopsis
 
 ```sql
-SELECT MIN(key) FROM STREAM:apache;
+SELECT MAX(key) FROM STREAM:apache;
 ```
 
 #### Description
