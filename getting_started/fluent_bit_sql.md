@@ -38,7 +38,7 @@ Select all keys from records which Tag starts with _apache._:
 SELECT code AS http_status FROM TAG:'apache.*';
 ```
 
-> Since the TAG selector allows the use wildcards we put the value between single quotes.
+> Since the TAG selector allows the use of wildcards, we put the value between single quotes.
 
 ### CREATE STREAM Statement
 
@@ -71,10 +71,9 @@ CREATE STREAM hello AS SELECT * FROM TAG:'apache.*';
 ## Aggregation Functions
 
 Aggregation functions are used in `results_statement` on the keys, allowing to perform data calculation on groups of records.
-Group of records that aggregation functions apply on are determined by `WINDOW` keyword. When `WiNDOW` is not specified, aggregation functions apply
-on the current buffer of records received, which may have non-deterministic number of elements. Aggregation functions can be applied on records in a window of a specific time interval (see the syntax of `WINDOW` in select statement).
+Group of records that aggregation functions apply on are determined by `WINDOW` keyword. When `WINDOW` is not specified, aggregation functions apply on the current buffer of records received, which may have non-deterministic number of elements. Aggregation functions can be applied on records in a window of a specific time interval (see the syntax of `WINDOW` in select statement).
 
-Fluent Bit streaming currently supports tumbling window, which is non-overlapping window type. That means, a window of size 5 seconds perform aggregation computations on records over a 5-second interval, and then starts new calculations for the next interval.
+Fluent Bit streaming currently supports tumbling window, which is non-overlapping window type. That means, a window of size 5 seconds performs aggregation computations on records over a 5-second interval, and then starts new calculations for the next interval.
 
 In addition, the syntax support `GROUP BY` statement, which groups the results by the one or more keys, when they have the same values.
 
@@ -188,6 +187,23 @@ Append Tag string associated to the record as a new key.
 
 ```sql
 SELECT RECORD_TIME() FROM STREAM:apache;
+```
+## WHERE Condition
+
+Similar to conventional SQL statements, `WHERE` condition is supported in Fluent Bit query language. The language supports conditions over keys and subkeys, for instance:
+```sql
+SELECT AVG(size) FROM STREAM:apache WHERE method = 'POST' AND status = 200;
+```
+It is possible to check the existence of a key in the record using record-specific function `@record.contains`:
+```sql
+SELECT MAX(key) FROM STREAM:apache WHERE @record.contains(key);
+```
+And to check if the value of a key is/is not `NULL`:
+```sql
+SELECT MAX(key) FROM STREAM:apache WHERE key IS NULL;
+```
+```sql
+SELECT * FROM STREAM:apache WHERE user IS NOT NULL;
 ```
 
 #### Description
