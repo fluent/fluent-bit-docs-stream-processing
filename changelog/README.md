@@ -41,11 +41,11 @@ On conditionals we have introduced the new *@record* functions:
 
 We currently support different data types such as *strings*, *integers*, *floats*, *maps* and *null*. In Fluent Bit, a *null* value is totally valid and is not related to the absence of a value as in normal databases. To compare if an existing key in the record have a *null* value or not, we have introduced *IS NULL* and *IS NOT NULL* statements, e.g:
 
-```
+```sql
 SELECT * FROM STREAM:test WHERE key3['sub1'] IS NOT NULL;
 ```
 
-For more details please review the section[Check Keys and NULL values](../getting_started/is_null_is_not_null_record_contains)
+For more details please review the section [Check Keys and NULL values](../getting_started/is_null_is_not_null_record_contains)
 
 ## Fluent Bit v1.1
 
