@@ -2,6 +2,7 @@
 
 * [Introduction](README.md)
 * [Overview](overview/README.md)
+* [Changelog](changelog/README.md)
 * [Getting Started](getting_started/README.md)
   * [Fluent Bit + SQL](getting_started/fluent_bit_sql.md)
   * [Check Keys and NULL values](getting_started/is_null_is_not_null_record_contains.md)
