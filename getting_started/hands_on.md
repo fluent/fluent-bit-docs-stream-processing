@@ -1,6 +1,6 @@
 # Hands on: Stream Processing 101
 
-This article go through to very specific and simple steps to learn how Stream Processor works. For simplicity it uses a custom Docker image that contains the relevant components for testing.
+This article goes through very specific and simple steps to learn how Stream Processor works. For simplicity it uses a custom Docker image that contains the relevant components for testing.
 
 ## Requirements
 
@@ -9,13 +9,13 @@ The following tutorial requires the following software components:
 - [Fluent Bit](https://fluentbit.io) >= v1.2.0
 - [Docker Engine](https://www.docker.com/products/docker-engine) (not mandatory if you already have Fluent Bit binary installed in your system)
 
-In addition download the following data samples file (130KB):
+In addition download the following data sample file (130KB):
 
 - https://fluentbit.io/samples/sp-samples-1k.log
 
 ## Stream Processing using the command line
 
-For all next steps we will run Fluent Bit from the command line, for simplicity we will use the official Docker image.
+For all next steps we will run Fluent Bit from the command line, and for simplicity we will use the official Docker image.
 
 ### 1. Fluent Bit version:
 
@@ -26,7 +26,7 @@ Fluent Bit v1.2.0
 
 ### 2. Parse sample files
 
-The samples file contains JSON records, on this command we are appending the Parsers configuration file and instructing _tail_ input plugin to parse the content as _json_:
+The samples file contains JSON records. On this command, we are appending the Parsers configuration file and instructing _tail_ input plugin to parse the content as _json_:
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
@@ -37,7 +37,7 @@ $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
                                 -o stdout -f 1
 ```
 
-the command above will simply print the parsed content to the standard output interface. The content will print the _Tag_ associated to each record and an array with two fields: record timestamp and record map:
+The command above will simply print the parsed content to the standard output interface. The content will print the _Tag_ associated to each record and an array with two fields: record timestamp and record map:
 
 ```
 Fluent Bit v1.2.0
@@ -60,7 +60,7 @@ As of now there is no Stream Processing, on step #3 we will start doing some bas
 
 ### 3. Selecting specific record keys
 
-This command introduces a Stream Processor (SP) query through the __-T__ option and changes the output plugin to _null_, this is done with the purpose of to obtain the SP results in the standard output interface and avoid confusions in the terminal.
+This command introduces a Stream Processor (SP) query through the __-T__ option and changes the output plugin to _null_, this is done with the purpose of obtaining the SP results in the standard output interface and avoid confusions in the terminal.
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log           \
@@ -74,7 +74,7 @@ $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log           \
          -o null -f 1
 ```
 
-The query above aims to retrieve all records that a key named _country_ value matches the value _Chile_, and for each match compose and output record using only the key fields _word_ and _num_:
+The query above aims to retrieve all records that a key named _country_ value matches the value _Chile_, and for each match compose and output a record using only the key fields _word_ and _num_:
 
 ```
 [0] [1557322913.263534, {"word"=>"Candide", "num"=>94}]
@@ -110,7 +110,7 @@ output:
 [0] [1557323573.945130, {"AVG(num)"=>99.000000}]
 ```
 
-why did we get multiple records ?. Answer: When Fluent Bit process the data, records comes in chunks and the Stream Processor do process over chunks of data, so the input plugin ingested 5 chunks of records and SP processed the query for each chunk independently. To process multiple chunks at once we have to group results during windows of time.
+why did we get multiple records? Answer: When Fluent Bit processes the data, records come in chunks and the Stream Processor runs the process over chunks of data, so the input plugin ingested 5 chunks of records and SP processed the query for each chunk independently. To process multiple chunks at once we have to group results during windows of time.
 
 ### 5. Grouping Results and Window
 
@@ -168,9 +168,9 @@ output:
 
 ## F.A.Q
 
-### Where STREAM name comes from ?
+### Where STREAM name comes from?
 
-Fluent Bit have the notion of streams, every input plugin instance gets a default name. You can override that behavior setting an alias, check the __alias__ parameter and new __stream__ name in the following example:
+Fluent Bit have the notion of streams, and every input plugin instance gets a default name. You can override that behavior by setting an alias. Check the __alias__ parameter and new __stream__ name in the following example:
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
