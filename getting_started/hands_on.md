@@ -6,7 +6,7 @@ This article go through to very specific and simple steps to learn how Stream Pr
 
 The following tutorial requires the following software components:
 
-- [Fluent Bit](https://fluentbit.io) >= v1.1.0
+- [Fluent Bit](https://fluentbit.io) >= v1.2.0
 - [Docker Engine](https://www.docker.com/products/docker-engine) (not mandatory if you already have Fluent Bit binary installed in your system)
 
 In addition download the following data samples file (130KB):
@@ -20,8 +20,8 @@ For all next steps we will run Fluent Bit from the command line, for simplicity 
 ### 1. Fluent Bit version:
 
 ```bash
-$ docker run -ti fluent/fluent-bit:1.1 /fluent-bit/bin/fluent-bit --version
-Fluent Bit v1.1.0
+$ docker run -ti fluent/fluent-bit:1.2 /fluent-bit/bin/fluent-bit --version
+Fluent Bit v1.2.0
 ```
 
 ### 2. Parse sample files
@@ -30,7 +30,7 @@ The samples file contains JSON records, on this command we are appending the Par
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
-     fluent/fluent-bit:1.1                                          \
+     fluent/fluent-bit:1.2                                          \
      /fluent-bit/bin/fluent-bit -R /fluent-bit/etc/parsers.conf     \
                                 -i tail -p path=/sp-samples-1k.log  \
                                         -p parser=json              \
@@ -40,7 +40,7 @@ $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
 the command above will simply print the parsed content to the standard output interface. The content will print the _Tag_ associated to each record and an array with two fields: record timestamp and record map:
 
 ```
-Fluent Bit v1.1.0
+Fluent Bit v1.2.0
 Copyright (C) Treasure Data
 
 [2019/05/08 13:34:16] [ info] [storage] initializing...
@@ -64,7 +64,7 @@ This command introduces a Stream Processor (SP) query through the __-T__ option 
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log           \
-     fluent/fluent-bit:1.1                                               \
+     fluent/fluent-bit:1.2                                               \
      /fluent-bit/bin/fluent-bit                                          \
          -R /fluent-bit/etc/parsers.conf                                 \
          -i tail                                                         \
@@ -90,7 +90,7 @@ The following query is similar to the one in the previous step, but this time we
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log           \
-     fluent/fluent-bit:1.1                                               \
+     fluent/fluent-bit:1.2                                               \
      /fluent-bit/bin/fluent-bit                                          \
          -R /fluent-bit/etc/parsers.conf                                 \
          -i tail                                                         \
@@ -118,7 +118,7 @@ Grouping results aims to simplify data processing and when used in a defined win
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
-     fluent/fluent-bit:1.1                                          \
+     fluent/fluent-bit:1.2                                          \
      /fluent-bit/bin/fluent-bit                                     \
          -R /fluent-bit/etc/parsers.conf                            \
          -i tail                                                    \
@@ -139,13 +139,13 @@ output:
 
 ### 6. Ingest Stream Processor results as new Stream of Data
 
-Now we see a more real-world use case. Sending data results to the standard output interface is good for learning purposes, but now we will instruct the Stream Processor to ingest results as part of Fluent Bit data pipeline and attach a Tag to them. 
+Now we see a more real-world use case. Sending data results to the standard output interface is good for learning purposes, but now we will instruct the Stream Processor to ingest results as part of Fluent Bit data pipeline and attach a Tag to them.
 
 This can be done using the __CREATE STREAM__ statement that will also tag results with __sp-results__ value. Note that output plugin parameter is now _stdout_ matching all records tagged with _sp-results_:
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
-     fluent/fluent-bit:1.1                                          \
+     fluent/fluent-bit:1.2                                          \
      /fluent-bit/bin/fluent-bit                                     \
          -R /fluent-bit/etc/parsers.conf                            \
          -i tail                                                    \
@@ -174,7 +174,7 @@ Fluent Bit have the notion of streams, every input plugin instance gets a defaul
 
 ```bash
 $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
-     fluent/fluent-bit:1.1                                          \
+     fluent/fluent-bit:1.2                                          \
      /fluent-bit/bin/fluent-bit                                     \
          -R /fluent-bit/etc/parsers.conf                            \
          -i tail                                                    \
@@ -189,4 +189,3 @@ $ docker run -ti -v `pwd`/sp-samples-1k.log:/sp-samples-1k.log      \
                GROUP BY country;"                                   \
          -o stdout -m 'sp-results' -f 1
 ```
-
