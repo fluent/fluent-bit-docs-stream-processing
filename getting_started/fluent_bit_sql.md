@@ -118,7 +118,7 @@ Gets the minimum value of a key in a set of records.
 #### Synopsis
 
 ```sql
-SELECT MIN(key) FROM STREAM:apache;
+SELECT MAX(key) FROM STREAM:apache;
 ```
 
 #### Description
