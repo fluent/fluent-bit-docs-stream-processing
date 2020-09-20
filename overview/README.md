@@ -16,13 +16,13 @@ The Filtering interface is good to perform specific record modifications like ap
 
 ## Stream Processor 
 
-The Stream Processor is an independent subsystem that check for new records hitting the Storage interface. By configuration the Stream Processor will attach to records coming from a specific Input plugin (stream) or by applying Tag and Matching rules.
+The Stream Processor is an independent subsystem that checks for new records hitting the Storage interface. By configuration the Stream Processor will attach to records coming from a specific Input plugin (stream) or by applying Tag and Matching rules.
 
 >  Every _Input_ instance is considered a __Stream__, that stream collects data and ingest records into the pipeline. 
 
 ![](../imgs/flb_pipeline_sp.png)
 
-By configuring specific SQL queries (Structured Query Language), the user can perform specific tasks like key selections, filtering and data aggregation within others. Note that there is __no__ database concept here, everything is **schema-less** and happens **in-memory**, for hence the concept of _Tables_ as in common relational databases don't exists. 
+By configuring specific SQL queries (Structured Query Language), the user can perform specific tasks like key selections, filtering and data aggregation within others. Note that there is __no__ database concept here, everything is **schema-less** and happens **in-memory**, hence the concept of _Tables_ as in common relational databases don't exists. 
 
-One of the powerful features of Fluent Bit Stream Processor is that allows to create new streams of data  using the results from a previous SQL query, these results are re-ingested back into the pipeline to be consumed again for the Stream Processor (if desired) or routed to output destinations such any common record by using Tag/Matching rules (tip: stream processor results can be Tagged!)
+One of the powerful features of Fluent Bit Stream Processor is that it allows for the creation of new streams of data using the results from a previous SQL query. The results are re-ingested back into the pipeline to be consumed again by the Stream Processor (if desired) or routed to output destinations such any common record by using Tag/Matching rules (tip: stream processor results can be tagged!)
 
